@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Gemunu+Libre:wght@500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css"
+      integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <title>Sorting Visualiser</title>
+  </head>
+  <body>
+    <header>
+      <div id="logo">
+        <!-- <img src="" alt="logo" /> -->
+        <h1>Sorting<span class="primary-text">Visualiser</span></h1>
+      </div>
+      <ul id="tools">
+        <li id="layout">
+          <span class="label">Layout</span>
+          <div class="box">
+            <span class="box-content">Bar</span>
+            <i class="fas fa-angle-right"></i>
+          </div>
+          <ul class="items">
+            <li onclick="changeLayout('Array')">Array</li>
+            <li onclick="changeLayout('Bar')">Bar</li>
+          </ul>
+        </li>
+        <li id="initial-condition">
+          <span class="label">Initial Condition</span>
+          <div class="box">
+            <span class="box-content">Random</span>
+            <i class="fas fa-angle-right"></i>
+          </div>
+          <ul class="items">
+            <li id="ic-1" onclick="changeInitialCondition('Random','ic-1')">
+              Random
+            </li>
+            <li
+              id="ic-2"
+              onclick="changeInitialCondition('Nearly Sorted','ic-2')"
+            >
+              Nearly Sorted
+            </li>
+            <li id="ic-3" onclick="changeInitialCondition('Reversed','ic-3')">
+              Reversed
+            </li>
+            <li id="ic-4" onclick="changeInitialCondition('Few Unique','ic-4')">
+              Few Unique
+            </li>
+          </ul>
+        </li>
+        <li id="algorithm">
+          <span class="label">Algorithm</span>
+          <div class="box">
+            <span class="box-content">Bubble Sort</span>
+            <i class="fas fa-angle-right"></i>
+          </div>
+          <ul class="items">
+            <li id="a-1" onclick="changeAlgorithm('Bubble Sort','a-1')">
+              Bubble Sort
+            </li>
+            <li id="a-2" onclick="changeAlgorithm('Selection Sort','a-2')">
+              Selection Sort
+            </li>
+            <li id="a-3" onclick="changeAlgorithm('Insertion Sort','a-3')">
+              Insertion Sort
+            </li>
+            <li id="a-4" onclick="changeAlgorithm('Merge Sort','a-4')">
+              Merge Sort
+            </li>
+            <li id="a-5" onclick="changeAlgorithm('Quick Sort','a-5')">
+              Quick Sort
+            </li>
+            <li id="a-6" onclick="changeAlgorithm('Heap Sort','a-6')">
+              Heap Sort
+            </li>
+          </ul>
+        </li>
+        <li id="size">
+          <span class="label">Size</span>
+          <div class="slider-container">
+            <input
+              type="range"
+              name="size-input"
+              id="size-input"
+              class="slider-input"
+              min="1"
+              max="10"
+              value="5"
+              onchange="changeSize()"
+            />
+          </div>
+        </li>
+        <li id="speed">
+          <span class="label">Speed</span>
+          <div class="slider-container">
+            <input
+              type="range"
+              name="speed-input"
+              id="speed-input"
+              class="slider-input"
+              min="1"
+              max="5"
+              value="3"
+              onchange="changeSpeed()"
+            />
+          </div>
+        </li>
+      </ul>
+    </header>
+    <div class="container">
+      <main>
+        <div></div>
+        <div>Random</div>
+        <div>Bubble Sort</div>
+        <div>Graph</div>
+      </main>
+    </div>
+    <script src="./script.js"></script>
+  </body>
+</html>
