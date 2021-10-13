@@ -101,6 +101,7 @@ header {
   border-bottom: 2px solid #777;
   padding: 0.4rem 0;
   transition: color 0.3s;
+  line-height: 1.6rem;
 }
 
 .items li:last-child {
@@ -165,19 +166,26 @@ header {
 }
 
 .container {
-  height: 79vh;
-  width: 100%;
-  padding: 10px;
+  min-height: calc(100vh - 9.2rem - 40px);
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 main {
-  height: 100%;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  border: rgb(236, 225, 225);
+  box-shadow: 0 0 10px #000;
 }
 
 main div {
-  background: var(--light-color);
-  border: 1px solid rgb(207, 199, 199);
+  height: 100%;
+  background: var(--secondary-color);
+  border: 1px solid var(--gray-color);
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }

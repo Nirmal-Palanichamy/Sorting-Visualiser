@@ -4,6 +4,7 @@ document.getElementById("ic-1").innerHTML += "&#x2713";
 const algorithm = new Set();
 algorithm.add("Bubble Sort");
 document.getElementById("a-1").innerHTML += "&#x2713";
+let cards = document.querySelectorAll(".card");
 let currSize = 25;
 let currSpeed = 3;
 let widthItems = 2;
