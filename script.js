@@ -1,4 +1,3 @@
-let layout = "Bar";
 const initialCondition = new Set();
 initialCondition.add("Random");
 document.getElementById("ic-1").innerHTML += "&#x2713";
@@ -9,12 +8,6 @@ let currSize = 25;
 let currSpeed = 3;
 let widthItems = 2;
 let heightItems = 2;
-
-function changeLayout(newLayout) {
-  layout = newLayout;
-  document.querySelector("#layout .box-content").textContent = newLayout;
-  constructTable();
-}
 
 function changeInitialCondition(condition, ic) {
   if (initialCondition.has(condition)) {
