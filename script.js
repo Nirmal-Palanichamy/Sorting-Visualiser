@@ -82,11 +82,12 @@ function constructTable() {
 
 constructTable();
 
-document.querySelector(".play-pause").addEventListener("click", function () {
-  this.classList.toggle("fa-play");
-  this.classList.toggle("fa-pause");
-});
+function playPause() {
+  playPauseButton = document.querySelector(".play-pause");
+  playPauseButton.classList.toggle("fa-play");
+  playPauseButton.classList.toggle("fa-pause");
+}
 
-document.querySelector(".randomise").addEventListener("click", function () {
+function randomise() {
   console.log("bye");
-});
+}
