@@ -12,6 +12,10 @@ let heightItems = 2;
 
 function changeInitialCondition(condition, ic) {
   if (initialCondition.has(condition)) {
+    if (initialCondition.size == 1) {
+      alert("Choose atleast one inital condition!");
+      return;
+    }
     initialCondition.delete(condition);
     document.getElementById(ic).innerHTML = document
       .getElementById(ic)
@@ -20,10 +24,7 @@ function changeInitialCondition(condition, ic) {
     initialCondition.add(condition);
     document.getElementById(ic).innerHTML += "&#x2713";
   }
-  if (initialCondition.size == 0) {
-    document.querySelector("#initial-condition .box-content").textContent =
-      "None";
-  } else if (initialCondition.size == 1) {
+  if (initialCondition.size == 1) {
     document.querySelector("#initial-condition .box-content").textContent =
       initialCondition.values().next().value;
   } else {
@@ -35,6 +36,10 @@ function changeInitialCondition(condition, ic) {
 
 function changeAlgorithm(algo, a) {
   if (algorithm.has(algo)) {
+    if (algorithm.size == 1) {
+      alert("Choose atleast one algorithm!");
+      return;
+    }
     algorithm.delete(algo);
     document.getElementById(a).innerHTML = document
       .getElementById(a)
@@ -43,9 +48,7 @@ function changeAlgorithm(algo, a) {
     algorithm.add(algo);
     document.getElementById(a).innerHTML += "&#x2713";
   }
-  if (algorithm.size == 0) {
-    document.querySelector("#algorithm .box-content").textContent = "None";
-  } else if (algorithm.size == 1) {
+  if (algorithm.size == 1) {
     document.querySelector("#algorithm .box-content").textContent = algorithm
       .values()
       .next().value;
@@ -75,10 +78,15 @@ function constructTable() {
     heightItems = icLen + 1;
     maxi = "algo";
   }
-  if (widthItems == 1 || heightItems == 1) {
-    alert("Choose atleast one algorithm and one inital condition!");
-    return;
-  }
 }
 
 constructTable();
+
+document.querySelector(".play-pause").addEventListener("click", function () {
+  this.classList.toggle("fa-play");
+  this.classList.toggle("fa-pause");
+});
+
+document.querySelector(".randomise").addEventListener("click", function () {
+  console.log("bye");
+});

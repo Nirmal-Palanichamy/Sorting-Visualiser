@@ -179,8 +179,9 @@ main {
   box-shadow: 0 0 10px #000;
 }
 
-main div {
-  height: 100%;
+.card {
+  height: 6rem;
+  width: 6rem;
   background: var(--secondary-color);
   border: 1px solid var(--gray-color);
   padding: 10px;
@@ -188,4 +189,23 @@ main div {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.controller {
+  flex-direction: row;
+  padding: 0 1rem;
+}
+
+.controller i {
+  cursor: pointer;
+  width: 50%;
+  text-align: center;
+}
+
+.controller i:hover {
+  transform: scale(1.2);
+}
+
+.controller i:active {
+  color: var(--primary-color);
 }
