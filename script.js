@@ -66,9 +66,11 @@ function changeSpeed() {
 function constructTable() {
   let widthItems = algorithm;
   let heightItems = initialCondition;
+  let horizontal = "algorithm";
   if (document.body.clientWidth < 878) {
     widthItems = initialCondition;
     heightItems = algorithm;
+    horizontal = "initialCondition";
   }
   const totalCards = (widthItems.size + 1) * (heightItems.size + 1);
   const table = document.querySelector("main");
@@ -95,11 +97,21 @@ function constructTable() {
   cards[0].appendChild(newPlayPauser);
 
   for (let i = 0; i < widthItems.size; i++) {
-    cards[i + 1].innerHTML = [...widthItems][i].replace(" Sort", "");
+    if (horizontal == "algorithm") {
+      cards[i + 1].innerHTML = [...widthItems][i].replace(" Sort", "");
+    } else {
+      cards[i + 1].innerHTML = [...widthItems][i];
+    }
   }
 
   for (let i = 0; i < heightItems.size; i++) {
-    cards[(widthItems.size + 1) * (i + 1)].innerHTML = [...heightItems][i];
+    if (horizontal == "initialCondition") {
+      cards[(widthItems.size + 1) * (i + 1)].innerHTML = [...heightItems][
+        i
+      ].replace(" Sort", "");
+    } else {
+      cards[(widthItems.size + 1) * (i + 1)].innerHTML = [...heightItems][i];
+    }
   }
 }
 
