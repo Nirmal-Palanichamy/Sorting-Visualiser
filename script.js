@@ -4,11 +4,8 @@ document.getElementById("ic-1").innerHTML += "&#x2713";
 const algorithm = new Set();
 algorithm.add("Bubble Sort");
 document.getElementById("a-1").innerHTML += "&#x2713";
-let cards = document.querySelectorAll(".card");
 let currSize = 25;
 let currSpeed = 3;
-let widthItems = 2;
-let heightItems = 2;
 
 function changeInitialCondition(condition, ic) {
   if (initialCondition.has(condition)) {
@@ -59,31 +56,61 @@ function changeAlgorithm(algo, a) {
 }
 
 function changeSize() {
-  currSize = document.getElementById("size-input").value * 5;
+  const currSize = document.getElementById("size-input").value * 5;
 }
 
 function changeSpeed() {
-  currSpeed = Number(document.getElementById("speed-input").value);
+  const currSpeed = Number(document.getElementById("speed-input").value);
 }
 
 function constructTable() {
-  icLen = initialCondition.size;
-  algoLen = algorithm.size;
-  if (icLen > algoLen) {
-    widthItems = icLen + 1;
-    heightItems = algoLen + 1;
-    maxi = "ic";
-  } else {
-    widthItems = algoLen + 1;
-    heightItems = icLen + 1;
-    maxi = "algo";
+  let widthItems = algorithm;
+  let heightItems = initialCondition;
+  if (document.body.clientWidth < 878) {
+    widthItems = initialCondition;
+    heightItems = algorithm;
+  }
+  const totalCards = (widthItems.size + 1) * (heightItems.size + 1);
+  const table = document.querySelector("main");
+  const cards = [];
+  table.innerHTML = "";
+  table.style.setProperty(
+    "grid-template-columns",
+    `repeat(${widthItems.size + 1},1fr)`
+  );
+  for (let i = 0; i < totalCards; i++) {
+    const newCard = document.createElement("div");
+    newCard.classList.add("card");
+    table.appendChild(newCard);
+    cards.push(newCard);
+  }
+  cards[0].classList.add("controller");
+  const newRandomiser = document.createElement("i");
+  newRandomiser.classList.add("fas", "fa-redo", "randomise");
+  newRandomiser.onclick = randomise;
+  cards[0].appendChild(newRandomiser);
+  const newPlayPauser = document.createElement("i");
+  newPlayPauser.classList.add("fas", "fa-play", "play-pause");
+  newPlayPauser.onclick = playPause;
+  cards[0].appendChild(newPlayPauser);
+
+  for (let i = 0; i < widthItems.size; i++) {
+    cards[i + 1].innerHTML = [...widthItems][i].replace(" Sort", "");
+  }
+
+  for (let i = 0; i < heightItems.size; i++) {
+    cards[(widthItems.size + 1) * (i + 1)].innerHTML = [...heightItems][i];
   }
 }
 
 constructTable();
 
+window.onresize = function () {
+  constructTable();
+};
+
 function playPause() {
-  playPauseButton = document.querySelector(".play-pause");
+  const playPauseButton = document.querySelector(".play-pause");
   playPauseButton.classList.toggle("fa-play");
   playPauseButton.classList.toggle("fa-pause");
 }

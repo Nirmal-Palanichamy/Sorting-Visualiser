@@ -166,7 +166,7 @@ header {
 }
 
 .container {
-  min-height: calc(100vh - 9.2rem - 40px);
+  min-height: calc(100vh - 9.2rem);
   padding: 20px;
   display: flex;
   justify-content: center;
@@ -189,6 +189,7 @@ main {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  text-align: center;
 }
 
 .controller {
