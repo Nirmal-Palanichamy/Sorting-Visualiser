@@ -184,7 +184,7 @@ main {
   width: 6rem;
   background: var(--secondary-color);
   border: 1px solid var(--gray-color);
-  padding: 10px;
+  padding: 0.4rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -209,4 +209,8 @@ main {
 
 .controller i:active {
   color: var(--primary-color);
+}
+
+.bar {
+  background: var(--light-color);
 }
