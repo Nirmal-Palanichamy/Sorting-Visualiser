@@ -6,6 +6,8 @@ algorithm.add("Bubble Sort");
 document.getElementById("a-1").innerHTML += "&#x2713";
 let currSize = 25;
 let currSpeed = 3;
+let cards = [];
+let isPlaying = false;
 
 const barWidths = {
   random: function (n) {
@@ -85,6 +87,41 @@ const barWidths = {
   },
 };
 
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+const sortingAlgos = {
+  bubble: async function (arr) {
+    let sorted = false;
+    let currLen = arr.length - 1;
+    while (!sorted) {
+      sorted = true;
+      for (let i = 0; i < currLen; i++) {
+        if (!isPlaying) {
+          return;
+        }
+        await sleep(100);
+        if (
+          Number(arr[i + 1].style.width.slice(0, -2)) <
+          Number(arr[i].style.width.slice(0, -2))
+        ) {
+          sorted = false;
+          let temp = arr[i].style.width;
+          arr[i].style.width = arr[i + 1].style.width;
+          arr[i + 1].style.width = temp;
+        }
+      }
+      currLen--;
+    }
+  },
+  selection: function (arr) {},
+  insertion: function (arr) {},
+  merge: function (arr) {},
+  quick: function (arr) {},
+  heap: function (arr) {},
+};
+
 function changeInitialCondition(condition, ic) {
   if (initialCondition.has(condition)) {
     if (initialCondition.size == 1) {
@@ -145,9 +182,9 @@ function changeSpeed() {
 function constructTable() {
   //Width and Height Items Decision
 
-  let widthItems = algorithm;
-  let heightItems = initialCondition;
-  let horizontal = "algorithm";
+  widthItems = algorithm;
+  heightItems = initialCondition;
+  horizontal = "algorithm";
   if (document.body.clientWidth < 878) {
     widthItems = initialCondition;
     heightItems = algorithm;
@@ -157,7 +194,7 @@ function constructTable() {
   //Create Table Layout
 
   const table = document.querySelector("main");
-  const cards = [];
+  cards = [];
   table.innerHTML = "";
   table.style.setProperty(
     "grid-template-columns",
@@ -176,6 +213,7 @@ function constructTable() {
 
   //Create Controller
 
+  isPlaying = false;
   cards[0][0].classList.add("controller");
   const newRandomiser = document.createElement("i");
   newRandomiser.classList.add("fas", "fa-redo", "randomise");
@@ -262,6 +300,23 @@ function playPause() {
   const playPauseButton = document.querySelector(".play-pause");
   playPauseButton.classList.toggle("fa-play");
   playPauseButton.classList.toggle("fa-pause");
+  isPlaying = isPlaying ? false : true;
+  if (!isPlaying) {
+    return;
+  }
+  for (let i = 0; i < heightItems.size; i++) {
+    for (let j = 0; j < widthItems.size; j++) {
+      if (horizontal == "algorithm") {
+        sortingAlgos[`${cards[0][j + 1].innerHTML.toLowerCase()}`](
+          cards[i + 1][j + 1].children
+        );
+      } else {
+        sortingAlgos[`${cards[i + 1][0].innerHTML.toLowerCase()}`](
+          cards[i + 1][j + 1].children
+        );
+      }
+    }
+  }
 }
 
 function randomise() {
