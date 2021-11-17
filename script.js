@@ -32,14 +32,15 @@ const barWidths = {
     const nearlySortedArray = [];
     let sorted = true;
     while (nearlySortedArray.length < n) {
-      for (let i = 0; i < n; i += 2) {
+      for (let i = 0; i < n; i += 4) {
         const tempArray = [];
-        while (tempArray.length < 2) {
-          const r = Math.floor(Math.random() * 2) + 1;
+        while (tempArray.length < 4) {
+          const r = Math.floor(Math.random() * 4) + 1;
           if (tempArray.indexOf(r) === -1) tempArray.push(r);
         }
-        nearlySortedArray.push(i + tempArray[0]);
-        nearlySortedArray.push(i + tempArray[1]);
+        for (let j = 0; j < 4; j++) {
+          nearlySortedArray.push(i + tempArray[j]);
+        }
       }
     }
     for (let i = 0; i < n - 1; i++) {
@@ -137,7 +138,25 @@ const sortingAlgos = {
       currLen--;
     }
   },
-  insertion: function (arr) {},
+  insertion: async function (arr) {
+    for (let i = 0; i < arr.length; i++) {
+      let j = i;
+      while (
+        j > 0 &&
+        Number(arr[j - 1].style.width.slice(0, -2)) >
+          Number(arr[j].style.width.slice(0, -2))
+      ) {
+        if (!isPlaying) {
+          return;
+        }
+        await sleep(10);
+        let temp = arr[j - 1].style.width;
+        arr[j - 1].style.width = arr[j].style.width;
+        arr[j].style.width = temp;
+        j--;
+      }
+    }
+  },
   merge: function (arr) {},
   quick: function (arr) {},
   heap: function (arr) {},
