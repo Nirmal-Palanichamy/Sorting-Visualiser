@@ -102,7 +102,7 @@ const sortingAlgos = {
         if (!isPlaying) {
           return;
         }
-        await sleep(10);
+        await sleep((50 * 40) / (currSpeed * arr.length));
         if (
           Number(arr[i + 1].style.width.slice(0, -2)) <
           Number(arr[i].style.width.slice(0, -2))
@@ -124,7 +124,7 @@ const sortingAlgos = {
         if (!isPlaying) {
           return;
         }
-        await sleep(10);
+        await sleep((50 * 40) / (currSpeed * arr.length));
         if (
           Number(arr[i].style.width.slice(0, -2)) >
           Number(arr[maxEleInd].style.width.slice(0, -2))
@@ -139,7 +139,7 @@ const sortingAlgos = {
     }
   },
   insertion: async function (arr) {
-    for (let i = 0; i < arr.length; i++) {
+    for (let i = 1; i < arr.length; i++) {
       let j = i;
       while (
         j > 0 &&
@@ -149,7 +149,7 @@ const sortingAlgos = {
         if (!isPlaying) {
           return;
         }
-        await sleep(10);
+        await sleep((50 * 40) / (currSpeed * arr.length));
         let temp = arr[j - 1].style.width;
         arr[j - 1].style.width = arr[j].style.width;
         arr[j].style.width = temp;
@@ -157,7 +157,49 @@ const sortingAlgos = {
       }
     }
   },
-  merge: function (arr) {},
+  merge: function (arr) {
+    if (arr.length == 1) {
+      return;
+    }
+    let mid = Math.trunc(arr.length / 2);
+    let left = arr.slice(0, mid);
+    let right = arr.slice(mid);
+    this.merge(left);
+    this.merge(right);
+    this.mergeSortedArrays(left, right, arr);
+  },
+  mergeSortedArrays: function (a, b, arr) {
+    for (let ind = 0; ind < a.length; ind++) {
+      a[ind] = a[ind].style.width;
+    }
+    for (let ind = 0; ind < b.length; ind++) {
+      b[ind] = b[ind].style.width;
+    }
+    let i = 0,
+      j = 0,
+      k = 0;
+    while (i < a.length && j < b.length) {
+      if (Number(a[i].slice(0, -2)) <= Number(b[j].slice(0, -2))) {
+        arr[k].style.width = a[i];
+        i++;
+        k++;
+      } else {
+        arr[k].style.width = b[j];
+        j++;
+        k++;
+      }
+    }
+    while (i < a.length) {
+      arr[k].style.width = a[i];
+      i++;
+      k++;
+    }
+    while (j < b.length) {
+      arr[k].style.width = b[j];
+      j++;
+      k++;
+    }
+  },
   quick: function (arr) {},
   heap: function (arr) {},
 };
@@ -216,7 +258,7 @@ function changeSize() {
 }
 
 function changeSpeed() {
-  const currSpeed = Number(document.getElementById("speed-input").value);
+  currSpeed = Number(document.getElementById("speed-input").value);
 }
 
 function constructTable() {
@@ -347,13 +389,13 @@ function playPause() {
   for (let i = 0; i < heightItems.size; i++) {
     for (let j = 0; j < widthItems.size; j++) {
       if (horizontal == "algorithm") {
-        sortingAlgos[`${cards[0][j + 1].innerHTML.toLowerCase()}`](
-          cards[i + 1][j + 1].children
-        );
+        sortingAlgos[`${cards[0][j + 1].innerHTML.toLowerCase()}`]([
+          ...cards[i + 1][j + 1].children,
+        ]);
       } else {
-        sortingAlgos[`${cards[i + 1][0].innerHTML.toLowerCase()}`](
-          cards[i + 1][j + 1].children
-        );
+        sortingAlgos[`${cards[i + 1][0].innerHTML.toLowerCase()}`]([
+          ...cards[i + 1][j + 1].children,
+        ]);
       }
     }
   }
