@@ -101,7 +101,7 @@ const sortingAlgos = {
         if (!isPlaying) {
           return;
         }
-        await sleep(100);
+        await sleep(10);
         if (
           Number(arr[i + 1].style.width.slice(0, -2)) <
           Number(arr[i].style.width.slice(0, -2))
@@ -115,7 +115,28 @@ const sortingAlgos = {
       currLen--;
     }
   },
-  selection: function (arr) {},
+  selection: async function (arr) {
+    let currLen = arr.length;
+    while (currLen > 1) {
+      let maxEleInd = 0;
+      for (let i = 1; i < currLen; i++) {
+        if (!isPlaying) {
+          return;
+        }
+        await sleep(10);
+        if (
+          Number(arr[i].style.width.slice(0, -2)) >
+          Number(arr[maxEleInd].style.width.slice(0, -2))
+        ) {
+          maxEleInd = i;
+        }
+      }
+      let temp = arr[currLen - 1].style.width;
+      arr[currLen - 1].style.width = arr[maxEleInd].style.width;
+      arr[maxEleInd].style.width = temp;
+      currLen--;
+    }
+  },
   insertion: function (arr) {},
   merge: function (arr) {},
   quick: function (arr) {},
