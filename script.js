@@ -226,8 +226,8 @@ const sortingAlgos = {
       }
       leftIndex++;
     }
-    this.quick(arr.slice(0, pivotIndex));
-    this.quick(arr.slice(pivotIndex + 1));
+    await this.quick(arr.slice(0, pivotIndex));
+    await this.quick(arr.slice(pivotIndex + 1));
   },
   heap: async function (arr) {
     const arraySize = document.getElementById("size-input").value * 4;
