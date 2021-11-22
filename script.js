@@ -4,6 +4,9 @@ document.getElementById("ic-1").innerHTML += "&#x2713";
 const algorithm = new Set();
 algorithm.add("Bubble Sort");
 document.getElementById("a-1").innerHTML += "&#x2713";
+const finishedColor = "#d7ec60";
+const sortedPartColor = "orange";
+const currColor = "#999";
 let currSize = 25;
 let currSpeed = 3;
 let cards = [];
@@ -99,6 +102,7 @@ const sortingAlgos = {
     while (!sorted) {
       sorted = true;
       for (let i = 0; i < currLen; i++) {
+        arr[i].style.setProperty("background", currColor);
         if (!isPlaying) {
           return;
         }
@@ -112,8 +116,15 @@ const sortingAlgos = {
           arr[i].style.width = arr[i + 1].style.width;
           arr[i + 1].style.width = temp;
         }
+        arr[i].style.setProperty("background", "white");
       }
+      arr[currLen].style.setProperty("background", sortedPartColor);
       currLen--;
+    }
+    if (sorted) {
+      for (let i = 0; i < arr.length; i++) {
+        arr[i].style.setProperty("background", finishedColor);
+      }
     }
   },
   selection: async function (arr) {
@@ -121,6 +132,8 @@ const sortingAlgos = {
     while (currLen > 1) {
       let maxEleInd = 0;
       for (let i = 1; i < currLen; i++) {
+        arr[maxEleInd].style.setProperty("background", "red");
+        arr[i].style.setProperty("background", currColor);
         if (!isPlaying) {
           return;
         }
@@ -129,13 +142,21 @@ const sortingAlgos = {
           Number(arr[i].style.width.slice(0, -2)) >
           Number(arr[maxEleInd].style.width.slice(0, -2))
         ) {
+          arr[maxEleInd].style.setProperty("background", "white");
           maxEleInd = i;
         }
+        arr[i].style.setProperty("background", "white");
+        arr[maxEleInd].style.setProperty("background", "red");
       }
       let temp = arr[currLen - 1].style.width;
       arr[currLen - 1].style.width = arr[maxEleInd].style.width;
       arr[maxEleInd].style.width = temp;
+      arr[maxEleInd].style.setProperty("background", "white");
+      arr[currLen - 1].style.setProperty("background", sortedPartColor);
       currLen--;
+    }
+    for (let i = 0; i < arr.length; i++) {
+      arr[i].style.setProperty("background", finishedColor);
     }
   },
   insertion: async function (arr) {
