@@ -157,18 +157,18 @@ const sortingAlgos = {
       }
     }
   },
-  merge: function (arr) {
+  merge: async function (arr) {
     if (arr.length == 1) {
       return;
     }
     let mid = Math.trunc(arr.length / 2);
     let left = arr.slice(0, mid);
     let right = arr.slice(mid);
-    this.merge(left);
-    this.merge(right);
-    this.mergeSortedArrays(left, right, arr);
+    await this.merge(left);
+    await this.merge(right);
+    await this.mergeSortedArrays(left, right, arr);
   },
-  mergeSortedArrays: function (a, b, arr) {
+  mergeSortedArrays: async function (a, b, arr) {
     for (let ind = 0; ind < a.length; ind++) {
       a[ind] = a[ind].style.width;
     }
@@ -178,7 +178,9 @@ const sortingAlgos = {
     let i = 0,
       j = 0,
       k = 0;
+    const arraySize = document.getElementById("size-input").value * 4;
     while (i < a.length && j < b.length) {
+      await sleep((50 * 40) / (currSpeed * arraySize));
       if (Number(a[i].slice(0, -2)) <= Number(b[j].slice(0, -2))) {
         arr[k].style.width = a[i];
         i++;
@@ -190,18 +192,43 @@ const sortingAlgos = {
       }
     }
     while (i < a.length) {
+      await sleep((50 * 40) / (currSpeed * arraySize));
       arr[k].style.width = a[i];
       i++;
       k++;
     }
     while (j < b.length) {
+      await sleep((50 * 40) / (currSpeed * arraySize));
       arr[k].style.width = b[j];
       j++;
       k++;
     }
   },
-  quick: function (arr) {},
-  heap: function (arr) {},
+  quick: async function (arr) {
+    if (arr.length <= 1) {
+      return;
+    }
+    const arraySize = document.getElementById("size-input").value * 4;
+    let pivotIndex = arr.length - 1;
+    let leftIndex = 0;
+    while (leftIndex < pivotIndex) {
+      await sleep((50 * 40) / (currSpeed * arraySize));
+      if (
+        Number(arr[leftIndex].style.width.slice(0, -2)) >
+        Number(arr[pivotIndex].style.width.slice(0, -2))
+      ) {
+        const temp = arr[leftIndex].style.width;
+        arr[leftIndex].style.width = arr[pivotIndex - 1].style.width;
+        arr[pivotIndex - 1].style.width = arr[pivotIndex].style.width;
+        arr[pivotIndex].style.width = temp;
+        pivotIndex--;
+        leftIndex--;
+      }
+      leftIndex++;
+    }
+    this.quick(arr.slice(0, pivotIndex));
+    this.quick(arr.slice(pivotIndex + 1));
+  },
 };
 
 function changeInitialCondition(condition, ic) {
