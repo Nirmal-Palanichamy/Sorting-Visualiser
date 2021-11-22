@@ -229,6 +229,47 @@ const sortingAlgos = {
     this.quick(arr.slice(0, pivotIndex));
     this.quick(arr.slice(pivotIndex + 1));
   },
+  heap: async function (arr) {
+    const arraySize = document.getElementById("size-input").value * 4;
+    for (let i = Math.trunc(arr.length / 2) - 1; i > -1; i--) {
+      await sleep((50 * 40) / (currSpeed * arraySize));
+      await this.heapify(arr, i, arr.length);
+    }
+    for (let i = arr.length - 1; i > 0; i--) {
+      const temp = arr[0].style.width;
+      arr[0].style.width = arr[i].style.width;
+      arr[i].style.width = temp;
+      await sleep((50 * 40) / (currSpeed * arraySize));
+      await this.heapify(arr, 0, i);
+    }
+  },
+  heapify: async function (arr, curr, size) {
+    const arraySize = document.getElementById("size-input").value * 4;
+    let largest = curr;
+    let left = 2 * curr + 1;
+    let right = left + 1;
+    if (
+      left < size &&
+      Number(arr[left].style.width.slice(0, -2)) >
+        Number(arr[largest].style.width.slice(0, -2))
+    ) {
+      largest = left;
+    }
+    if (
+      right < size &&
+      Number(arr[right].style.width.slice(0, -2)) >
+        Number(arr[largest].style.width.slice(0, -2))
+    ) {
+      largest = right;
+    }
+    if (largest != curr) {
+      const temp = arr[largest].style.width;
+      arr[largest].style.width = arr[curr].style.width;
+      arr[curr].style.width = temp;
+      await sleep((50 * 40) / (currSpeed * arraySize));
+      await this.heapify(arr, largest, size);
+    }
+  },
 };
 
 function changeInitialCondition(condition, ic) {
