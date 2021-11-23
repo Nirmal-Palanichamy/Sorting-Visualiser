@@ -4,13 +4,15 @@ document.getElementById("ic-1").innerHTML += "&#x2713";
 const algorithm = new Set();
 algorithm.add("Bubble Sort");
 document.getElementById("a-1").innerHTML += "&#x2713";
-const finishedColor = "#d7ec60";
-const sortedPartColor = "orange";
-const currColor = "#999";
+const style = getComputedStyle(document.body);
+const finishedColor = style.getPropertyValue("--primary-color");
+const currColor = style.getPropertyValue("--gray-color");
+const lightColor = style.getPropertyValue("--light-color");
 let currSize = 25;
 let currSpeed = 3;
 let cards = [];
 let isPlaying = false;
+let started = false;
 
 const barWidths = {
   random: function (n) {
@@ -95,6 +97,17 @@ function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+function pauseSorting() {
+  return new Promise((resolve) => {
+    let newInterval = setInterval(() => {
+      if (isPlaying) {
+        clearInterval(newInterval);
+        resolve();
+      }
+    }, 0);
+  });
+}
+
 const sortingAlgos = {
   bubble: async function (arr) {
     let sorted = false;
@@ -103,9 +116,7 @@ const sortingAlgos = {
       sorted = true;
       for (let i = 0; i < currLen; i++) {
         arr[i].style.setProperty("background", currColor);
-        if (!isPlaying) {
-          return;
-        }
+        await pauseSorting();
         await sleep((50 * 40) / (currSpeed * arr.length));
         if (
           Number(arr[i + 1].style.width.slice(0, -2)) <
@@ -116,9 +127,9 @@ const sortingAlgos = {
           arr[i].style.width = arr[i + 1].style.width;
           arr[i + 1].style.width = temp;
         }
-        arr[i].style.setProperty("background", "white");
+        arr[i].style.setProperty("background", lightColor);
       }
-      arr[currLen].style.setProperty("background", sortedPartColor);
+      arr[currLen].style.setProperty("background", finishedColor);
       currLen--;
     }
     if (sorted) {
@@ -134,25 +145,23 @@ const sortingAlgos = {
       for (let i = 1; i < currLen; i++) {
         arr[maxEleInd].style.setProperty("background", "red");
         arr[i].style.setProperty("background", currColor);
-        if (!isPlaying) {
-          return;
-        }
+        await pauseSorting();
         await sleep((50 * 40) / (currSpeed * arr.length));
         if (
           Number(arr[i].style.width.slice(0, -2)) >
           Number(arr[maxEleInd].style.width.slice(0, -2))
         ) {
-          arr[maxEleInd].style.setProperty("background", "white");
+          arr[maxEleInd].style.setProperty("background", lightColor);
           maxEleInd = i;
         }
-        arr[i].style.setProperty("background", "white");
+        arr[i].style.setProperty("background", lightColor);
         arr[maxEleInd].style.setProperty("background", "red");
       }
       let temp = arr[currLen - 1].style.width;
       arr[currLen - 1].style.width = arr[maxEleInd].style.width;
       arr[maxEleInd].style.width = temp;
-      arr[maxEleInd].style.setProperty("background", "white");
-      arr[currLen - 1].style.setProperty("background", sortedPartColor);
+      arr[maxEleInd].style.setProperty("background", lightColor);
+      arr[currLen - 1].style.setProperty("background", finishedColor);
       currLen--;
     }
     for (let i = 0; i < arr.length; i++) {
@@ -160,21 +169,19 @@ const sortingAlgos = {
     }
   },
   insertion: async function (arr) {
-    for (let i = 1; i < arr.length; i++) {
+    for (let i = arr.length - 1; i > 0; i--) {
       let j = i;
       while (
-        j > 0 &&
+        j < arr.length &&
         Number(arr[j - 1].style.width.slice(0, -2)) >
           Number(arr[j].style.width.slice(0, -2))
       ) {
-        if (!isPlaying) {
-          return;
-        }
+        await pauseSorting();
         await sleep((50 * 40) / (currSpeed * arr.length));
         let temp = arr[j - 1].style.width;
         arr[j - 1].style.width = arr[j].style.width;
         arr[j].style.width = temp;
-        j--;
+        j++;
       }
     }
   },
@@ -201,6 +208,7 @@ const sortingAlgos = {
       k = 0;
     const arraySize = document.getElementById("size-input").value * 4;
     while (i < a.length && j < b.length) {
+      await pauseSorting();
       await sleep((50 * 40) / (currSpeed * arraySize));
       if (Number(a[i].slice(0, -2)) <= Number(b[j].slice(0, -2))) {
         arr[k].style.width = a[i];
@@ -213,12 +221,14 @@ const sortingAlgos = {
       }
     }
     while (i < a.length) {
+      await pauseSorting();
       await sleep((50 * 40) / (currSpeed * arraySize));
       arr[k].style.width = a[i];
       i++;
       k++;
     }
     while (j < b.length) {
+      await pauseSorting();
       await sleep((50 * 40) / (currSpeed * arraySize));
       arr[k].style.width = b[j];
       j++;
@@ -233,6 +243,7 @@ const sortingAlgos = {
     let pivotIndex = arr.length - 1;
     let leftIndex = 0;
     while (leftIndex < pivotIndex) {
+      await pauseSorting();
       await sleep((50 * 40) / (currSpeed * arraySize));
       if (
         Number(arr[leftIndex].style.width.slice(0, -2)) >
@@ -253,6 +264,7 @@ const sortingAlgos = {
   heap: async function (arr) {
     const arraySize = document.getElementById("size-input").value * 4;
     for (let i = Math.trunc(arr.length / 2) - 1; i > -1; i--) {
+      await pauseSorting();
       await sleep((50 * 40) / (currSpeed * arraySize));
       await this.heapify(arr, i, arr.length);
     }
@@ -260,6 +272,7 @@ const sortingAlgos = {
       const temp = arr[0].style.width;
       arr[0].style.width = arr[i].style.width;
       arr[i].style.width = temp;
+      await pauseSorting();
       await sleep((50 * 40) / (currSpeed * arraySize));
       await this.heapify(arr, 0, i);
     }
@@ -287,6 +300,7 @@ const sortingAlgos = {
       const temp = arr[largest].style.width;
       arr[largest].style.width = arr[curr].style.width;
       arr[curr].style.width = temp;
+      await pauseSorting();
       await sleep((50 * 40) / (currSpeed * arraySize));
       await this.heapify(arr, largest, size);
     }
@@ -351,6 +365,9 @@ function changeSpeed() {
 }
 
 function constructTable() {
+  // Set started as false
+  started = false;
+
   //Width and Height Items Decision
 
   widthItems = algorithm;
@@ -387,7 +404,7 @@ function constructTable() {
   isPlaying = false;
   cards[0][0].classList.add("controller");
   const newRandomiser = document.createElement("i");
-  newRandomiser.classList.add("fas", "fa-redo", "randomise");
+  newRandomiser.classList.add("fas", "fa-random", "randomise");
   newRandomiser.onclick = randomise;
   cards[0][0].appendChild(newRandomiser);
   const newPlayPauser = document.createElement("i");
@@ -475,19 +492,22 @@ function playPause() {
   if (!isPlaying) {
     return;
   }
-  for (let i = 0; i < heightItems.size; i++) {
-    for (let j = 0; j < widthItems.size; j++) {
-      if (horizontal == "algorithm") {
-        sortingAlgos[`${cards[0][j + 1].innerHTML.toLowerCase()}`]([
-          ...cards[i + 1][j + 1].children,
-        ]);
-      } else {
-        sortingAlgos[`${cards[i + 1][0].innerHTML.toLowerCase()}`]([
-          ...cards[i + 1][j + 1].children,
-        ]);
+  if (!started) {
+    for (let i = 0; i < heightItems.size; i++) {
+      for (let j = 0; j < widthItems.size; j++) {
+        if (horizontal == "algorithm") {
+          sortingAlgos[`${cards[0][j + 1].innerHTML.toLowerCase()}`]([
+            ...cards[i + 1][j + 1].children,
+          ]);
+        } else {
+          sortingAlgos[`${cards[i + 1][0].innerHTML.toLowerCase()}`]([
+            ...cards[i + 1][j + 1].children,
+          ]);
+        }
       }
     }
   }
+  started = true;
 }
 
 function randomise() {
