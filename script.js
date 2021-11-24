@@ -307,13 +307,17 @@ const sortingAlgos = {
       await this.heapify(arr, i, arr.length);
     }
     for (let i = arr.length - 1; i > 0; i--) {
+      arr[0].style.setProperty("background", comparingColor);
+      await playCheck();
+      await sleep((50 * 40) / (currSpeed * arraySize));
+      arr[i].style.setProperty("background", sortedColor);
+      arr[0].style.setProperty("background", lightColor);
       const temp = arr[0].style.width;
       arr[0].style.width = arr[i].style.width;
       arr[i].style.width = temp;
-      await playCheck();
-      await sleep((50 * 40) / (currSpeed * arraySize));
       await this.heapify(arr, 0, i);
     }
+    arr[0].style.setProperty("background", sortedColor);
   },
   heapify: async function (arr, curr, size) {
     const arraySize = document.getElementById("size-input").value * 4;
