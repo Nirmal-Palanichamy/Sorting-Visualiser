@@ -8,7 +8,7 @@ const style = getComputedStyle(document.body);
 const sortedColor = style.getPropertyValue("--primary-color");
 const comparingColor = style.getPropertyValue("--comparing-color");
 const lightColor = style.getPropertyValue("--light-color");
-const grayColor = style.getPropertyValue("--gray-color");
+const processingColor = style.getPropertyValue("--processing-color");
 let currSize = 20;
 let currSpeed = 3;
 let cards = [];
@@ -201,6 +201,9 @@ const sortingAlgos = {
     await this.mergeSortedArrays(left, right, arr);
   },
   mergeSortedArrays: async function (a, b, arr) {
+    for (let i = 0; i < arr.length; i++) {
+      arr[i].style.setProperty("background", processingColor);
+    }
     let i = 0,
       j = 0,
       k = 0;
@@ -210,7 +213,7 @@ const sortingAlgos = {
       b[j].style.setProperty("background", comparingColor);
       await playCheck();
       await sleep((50 * 40) / (currSpeed * arraySize));
-      b[j].style.setProperty("background", lightColor);
+      b[j].style.setProperty("background", processingColor);
       arr[k].style.setProperty("background", sortedColor);
       if (
         Number(a[i].style.width.slice(0, -2)) <=
@@ -236,7 +239,7 @@ const sortingAlgos = {
       }
     }
     while (i < a.length) {
-      a[i].style.setProperty("background", grayColor);
+      a[i].style.setProperty("background", comparingColor);
       await playCheck();
       await sleep((50 * 40) / (currSpeed * arraySize));
       a[i].style.setProperty("background", sortedColor);
@@ -247,7 +250,7 @@ const sortingAlgos = {
       k++;
     }
     while (j < b.length) {
-      b[j].style.setProperty("background", grayColor);
+      b[j].style.setProperty("background", comparingColor);
       await playCheck();
       await sleep((50 * 40) / (currSpeed * arraySize));
       b[j].style.setProperty("background", sortedColor);
@@ -270,6 +273,9 @@ const sortingAlgos = {
     if (arr.length <= 1) {
       return;
     }
+    for (let i = 0; i < arr.length; i++) {
+      arr[i].style.setProperty("background", processingColor);
+    }
     const arraySize = document.getElementById("size-input").value * 4;
     let pivotIndex = arr.length - 1;
     let leftIndex = 0;
@@ -286,14 +292,17 @@ const sortingAlgos = {
         arr[leftIndex].style.width = arr[pivotIndex - 1].style.width;
         arr[pivotIndex - 1].style.width = arr[pivotIndex].style.width;
         arr[pivotIndex].style.width = temp;
-        arr[leftIndex].style.setProperty("background", lightColor);
-        arr[pivotIndex].style.setProperty("background", lightColor);
+        arr[leftIndex].style.setProperty("background", processingColor);
+        arr[pivotIndex].style.setProperty("background", processingColor);
         pivotIndex--;
         leftIndex--;
       } else {
-        arr[leftIndex].style.setProperty("background", lightColor);
+        arr[leftIndex].style.setProperty("background", processingColor);
       }
       leftIndex++;
+    }
+    for (let i = 0; i < arr.length; i++) {
+      arr[i].style.setProperty("background", lightColor);
     }
     arr[pivotIndex].style.setProperty("background", sortedColor);
     await this.quick(arr.slice(0, pivotIndex));
@@ -301,6 +310,9 @@ const sortingAlgos = {
   },
   heap: async function (arr) {
     const arraySize = document.getElementById("size-input").value * 4;
+    for (let i = 0; i < arraySize; i++) {
+      arr[i].style.setProperty("background", processingColor);
+    }
     for (let i = Math.trunc(arr.length / 2) - 1; i > -1; i--) {
       await playCheck();
       await sleep((50 * 40) / (currSpeed * arraySize));
@@ -311,7 +323,7 @@ const sortingAlgos = {
       await playCheck();
       await sleep((50 * 40) / (currSpeed * arraySize));
       arr[i].style.setProperty("background", sortedColor);
-      arr[0].style.setProperty("background", lightColor);
+      arr[0].style.setProperty("background", processingColor);
       const temp = arr[0].style.width;
       arr[0].style.width = arr[i].style.width;
       arr[i].style.width = temp;
