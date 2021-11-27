@@ -6,8 +6,9 @@
   --gray-color: #888;
   --primary-color: #d7ec60;
   --secondary-color: #34495e;
-  --comparing-color: #ff8800;
+  --comparing-color: #ff4343;
   --processing-color: #ccc;
+  --sorted-color: var(--primary-color);
 }
 
 /* RESET */
@@ -182,8 +183,6 @@ main {
 }
 
 .card {
-  height: 6rem;
-  width: 6rem;
   background: var(--secondary-color);
   border: 1px solid var(--gray-color);
   padding: 0.4rem;
@@ -215,4 +214,25 @@ main {
 
 .bar {
   background: var(--light-color);
+}
+
+@media screen and (max-width: 878px) {
+  header {
+    height: 30rem;
+  }
+  #tools {
+    flex-direction: column;
+  }
+  #tools > li {
+    margin: 1rem 0;
+  }
+  .container {
+    min-height: calc(100vh - 30rem);
+  }
+  .controller {
+    padding: 0 0.2rem;
+  }
+  .card {
+    font-size: 0.75rem;
+  }
 }

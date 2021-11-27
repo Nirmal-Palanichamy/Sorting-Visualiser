@@ -5,7 +5,7 @@ const algorithm = new Set();
 algorithm.add("Bubble Sort");
 document.getElementById("a-1").innerHTML += "&#x2713";
 const style = getComputedStyle(document.body);
-const sortedColor = style.getPropertyValue("--primary-color");
+const sortedColor = style.getPropertyValue("--sorted-color");
 const comparingColor = style.getPropertyValue("--comparing-color");
 const lightColor = style.getPropertyValue("--light-color");
 const processingColor = style.getPropertyValue("--processing-color");
@@ -427,7 +427,8 @@ function constructTable() {
   widthItems = algorithm;
   heightItems = initialCondition;
   horizontal = "algorithm";
-  if (document.body.clientWidth < 878) {
+  let bodyWidth = document.body.clientWidth;
+  if (bodyWidth < 878) {
     widthItems = initialCondition;
     heightItems = algorithm;
     horizontal = "initialCondition";
@@ -447,6 +448,15 @@ function constructTable() {
     for (let j = 0; j < widthItems.size + 1; j++) {
       const newCard = document.createElement("div");
       newCard.classList.add("card");
+      if (horizontal == "algorithm") {
+        newCard.style.setProperty("width", "6rem");
+        newCard.style.setProperty("height", "6rem");
+      } else {
+        const cardWidth = (bodyWidth - 20) / 5;
+        newCard.style.setProperty("font-size", `${(bodyWidth * 2) / 878}rem`);
+        newCard.style.setProperty("width", `${cardWidth}px`);
+        newCard.style.setProperty("height", `${cardWidth}px`);
+      }
       table.appendChild(newCard);
       temp.push(newCard);
     }
