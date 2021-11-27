@@ -499,7 +499,7 @@ function constructTable() {
   //Create Array
 
   const arraySize = document.getElementById("size-input").value * 4;
-  const barHeight = cards[0][0].clientHeight / (2 * arraySize);
+  const barHeight = cards[0][0].clientHeight / arraySize;
   newRandomArray = barWidths.random(arraySize);
   newNearlySortedArray = barWidths.nearlySorted(arraySize);
   newReversedArray = barWidths.reversed(arraySize);
@@ -510,11 +510,7 @@ function constructTable() {
       for (let k = 0; k < arraySize; k++) {
         const newBar = document.createElement("div");
         newBar.classList.add("bar");
-        newBar.style.setProperty("height", `${barHeight * 1.5}px`);
-        newBar.style.setProperty("margin-bottom", `${barHeight / 2}px`);
-        if (k == arraySize - 1) {
-          newBar.style.setProperty("margin-bottom", "0px");
-        }
+        newBar.style.setProperty("height", `${barHeight}px`);
         if (horizontal == "algorithm") {
           newBar.style.setProperty(
             "width",
