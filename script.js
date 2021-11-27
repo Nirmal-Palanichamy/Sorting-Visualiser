@@ -409,11 +409,6 @@ function changeAlgorithm(algo, a) {
   constructTable();
 }
 
-function changeSize() {
-  const currSize = document.getElementById("size-input").value * 4;
-  constructTable();
-}
-
 function changeSpeed() {
   currSpeed = Number(document.getElementById("speed-input").value);
 }
@@ -469,7 +464,7 @@ function constructTable() {
   cards[0][0].classList.add("controller");
   const newRandomiser = document.createElement("i");
   newRandomiser.classList.add("fas", "fa-random", "randomise");
-  newRandomiser.onclick = randomise;
+  newRandomiser.onclick = createNewArraysAndConstructTable;
   cards[0][0].appendChild(newRandomiser);
   const newPlayPauser = document.createElement("i");
   newPlayPauser.classList.add("fas", "fa-play", "play-pause");
@@ -500,10 +495,6 @@ function constructTable() {
 
   const arraySize = document.getElementById("size-input").value * 4;
   const barHeight = cards[0][0].clientHeight / arraySize;
-  newRandomArray = barWidths.random(arraySize);
-  newNearlySortedArray = barWidths.nearlySorted(arraySize);
-  newReversedArray = barWidths.reversed(arraySize);
-  newFewUniqueArray = barWidths.fewUnique(arraySize);
   for (let i = 0; i < heightItems.size; i++) {
     for (let j = 0; j < widthItems.size; j++) {
       cards[i + 1][j + 1].style.setProperty("align-items", "flex-start");
@@ -511,34 +502,41 @@ function constructTable() {
         const newBar = document.createElement("div");
         newBar.classList.add("bar");
         newBar.style.setProperty("height", `${barHeight}px`);
+        let rowVal, colVal;
         if (horizontal == "algorithm") {
-          newBar.style.setProperty(
-            "width",
-            `${
-              window[`new${cards[i + 1][0].innerHTML.replace(" ", "")}Array`][
-                k
-              ] *
-              ((cards[i + 1][j + 1].clientWidth - 12.8) / arraySize)
-            }px`
-          );
+          rowVal = i + 1;
+          colVal = 0;
         } else {
-          newBar.style.setProperty(
-            "width",
-            `${
-              window[`new${cards[0][j + 1].innerHTML.replace(" ", "")}Array`][
-                k
-              ] *
-              ((cards[i + 1][j + 1].clientWidth - 12.8) / arraySize)
-            }px`
-          );
+          rowVal = 0;
+          colVal = j + 1;
         }
+        newBar.style.setProperty(
+          "width",
+          `${
+            window[
+              `new${cards[rowVal][colVal].innerHTML.replace(" ", "")}Array`
+            ][k] *
+            ((cards[i + 1][j + 1].clientWidth - 12.8) / arraySize)
+          }px`
+        );
         cards[i + 1][j + 1].appendChild(newBar);
       }
     }
   }
 }
 
-constructTable();
+function createNewArraysAndConstructTable() {
+  const arraySize = document.getElementById("size-input").value * 4;
+  newRandomArray = barWidths.random(arraySize);
+  newNearlySortedArray = barWidths.nearlySorted(arraySize);
+  newReversedArray = barWidths.reversed(arraySize);
+  newFewUniqueArray = barWidths.fewUnique(arraySize);
+  constructTable();
+}
+
+window.onload = function () {
+  createNewArraysAndConstructTable();
+};
 
 window.onresize = function () {
   if (
@@ -573,8 +571,4 @@ function playPause() {
     }
   }
   started = true;
-}
-
-function randomise() {
-  constructTable();
 }
