@@ -540,11 +540,14 @@ function constructTable() {
 
 constructTable();
 
-// window.onresize = function () {
-//   if (document.body.clientWidth != bodyWidth) {
-//     constructTable();
-//   }
-// };
+window.onresize = function () {
+  if (
+    document.body.clientWidth < bodyWidth - 10 ||
+    document.body.clientWidth > bodyWidth + 10
+  ) {
+    constructTable();
+  }
+};
 
 function playPause() {
   const playPauseButton = document.querySelector(".play-pause");
