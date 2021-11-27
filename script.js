@@ -427,7 +427,7 @@ function constructTable() {
   widthItems = algorithm;
   heightItems = initialCondition;
   horizontal = "algorithm";
-  let bodyWidth = document.body.clientWidth;
+  bodyWidth = document.body.clientWidth;
   if (bodyWidth < 878) {
     widthItems = initialCondition;
     heightItems = algorithm;
@@ -541,7 +541,9 @@ function constructTable() {
 constructTable();
 
 window.onresize = function () {
-  constructTable();
+  if (document.body.clientWidth != bodyWidth) {
+    constructTable();
+  }
 };
 
 function playPause() {
