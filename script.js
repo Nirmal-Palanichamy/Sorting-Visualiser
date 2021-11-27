@@ -14,6 +14,8 @@ let currSpeed = 3;
 let cards = [];
 let isPlaying = false;
 let started = false;
+let finishedTotal = 0;
+let tableNumber = 1;
 
 const barWidths = {
   random: function (n) {
@@ -110,7 +112,7 @@ function playCheck() {
 }
 
 const sortingAlgos = {
-  bubble: async function (arr) {
+  bubble: async function (arr, tableNum) {
     let sorted = false;
     let currLen = arr.length - 1;
     while (!sorted) {
@@ -137,8 +139,12 @@ const sortingAlgos = {
     for (let i = 0; i <= currLen; i++) {
       arr[i].style.setProperty("background", sortedColor);
     }
+    if (tableNum == tableNumber) {
+      finishedTotal++;
+      finishedCheck();
+    }
   },
-  selection: async function (arr) {
+  selection: async function (arr, tableNum) {
     let currLen = arr.length;
     while (currLen > 1) {
       let maxEleInd = 0;
@@ -165,8 +171,12 @@ const sortingAlgos = {
       currLen--;
     }
     arr[0].style.setProperty("background", sortedColor);
+    if (tableNum == tableNumber) {
+      finishedTotal++;
+      finishedCheck();
+    }
   },
-  insertion: async function (arr) {
+  insertion: async function (arr, tableNum) {
     for (let i = arr.length - 1; i > 0; i--) {
       let j = i;
       while (
@@ -188,19 +198,23 @@ const sortingAlgos = {
       arr[i].style.setProperty("background", sortedColor);
     }
     arr[0].style.setProperty("background", sortedColor);
+    if (tableNum == tableNumber) {
+      finishedTotal++;
+      finishedCheck();
+    }
   },
-  merge: async function (arr) {
+  merge: async function (arr, tableNum) {
     if (arr.length == 1) {
       return;
     }
     let mid = Math.trunc(arr.length / 2);
     let left = arr.slice(0, mid);
     let right = arr.slice(mid);
-    await this.merge(left);
-    await this.merge(right);
-    await this.mergeSortedArrays(left, right, arr);
+    await this.merge(left, tableNum);
+    await this.merge(right, tableNum);
+    await this.mergeSortedArrays(left, right, arr, tableNum);
   },
-  mergeSortedArrays: async function (a, b, arr) {
+  mergeSortedArrays: async function (a, b, arr, tableNum) {
     for (let i = 0; i < arr.length; i++) {
       arr[i].style.setProperty("background", processingColor);
     }
@@ -264,9 +278,12 @@ const sortingAlgos = {
       for (let i = 0; i < arr.length; i++) {
         arr[i].style.setProperty("background", lightColor);
       }
+    } else if (tableNumber == tableNum) {
+      finishedTotal++;
+      finishedCheck();
     }
   },
-  quick: async function (arr) {
+  quick: async function (arr, tableNum) {
     if (arr.length == 1) {
       arr[0].style.setProperty("background", sortedColor);
     }
@@ -305,10 +322,14 @@ const sortingAlgos = {
       arr[i].style.setProperty("background", lightColor);
     }
     arr[pivotIndex].style.setProperty("background", sortedColor);
-    await this.quick(arr.slice(0, pivotIndex));
-    await this.quick(arr.slice(pivotIndex + 1));
+    await this.quick(arr.slice(0, pivotIndex), tableNum);
+    await this.quick(arr.slice(pivotIndex + 1), tableNum);
+    if (arr.length == arraySize && tableNum == tableNumber) {
+      finishedTotal++;
+      finishedCheck();
+    }
   },
-  heap: async function (arr) {
+  heap: async function (arr, tableNum) {
     const arraySize = document.getElementById("size-input").value * 4;
     for (let i = 0; i < arraySize; i++) {
       arr[i].style.setProperty("background", processingColor);
@@ -330,6 +351,10 @@ const sortingAlgos = {
       await this.heapify(arr, 0, i);
     }
     arr[0].style.setProperty("background", sortedColor);
+    if (tableNum == tableNumber) {
+      finishedTotal++;
+      finishedCheck();
+    }
   },
   heapify: async function (arr, curr, size) {
     const arraySize = document.getElementById("size-input").value * 4;
@@ -360,6 +385,15 @@ const sortingAlgos = {
     }
   },
 };
+
+function finishedCheck() {
+  if (finishedTotal == widthItems.size * heightItems.size) {
+    const playPauseButton = document.querySelector(".play-pause");
+    playPauseButton.classList.remove("fa-play", "fa-pause");
+    playPauseButton.classList.add("fa-redo");
+    playPauseButton.onclick = constructTable;
+  }
+}
 
 function changeInitialCondition(condition, ic) {
   if (initialCondition.has(condition)) {
@@ -414,9 +448,9 @@ function changeSpeed() {
 }
 
 function constructTable() {
-  // Set started as false
   started = false;
-
+  finishedTotal = 0;
+  tableNumber++;
   //Width and Height Items Decision
 
   widthItems = algorithm;
@@ -559,13 +593,15 @@ function playPause() {
     for (let i = 0; i < heightItems.size; i++) {
       for (let j = 0; j < widthItems.size; j++) {
         if (horizontal == "algorithm") {
-          sortingAlgos[`${cards[0][j + 1].innerHTML.toLowerCase()}`]([
-            ...cards[i + 1][j + 1].children,
-          ]);
+          sortingAlgos[`${cards[0][j + 1].innerHTML.toLowerCase()}`](
+            [...cards[i + 1][j + 1].children],
+            tableNumber
+          );
         } else {
-          sortingAlgos[`${cards[i + 1][0].innerHTML.toLowerCase()}`]([
-            ...cards[i + 1][j + 1].children,
-          ]);
+          sortingAlgos[`${cards[i + 1][0].innerHTML.toLowerCase()}`](
+            [...cards[i + 1][j + 1].children],
+            tableNumber
+          );
         }
       }
     }
