@@ -510,8 +510,8 @@ function constructTable() {
       for (let k = 0; k < arraySize; k++) {
         const newBar = document.createElement("div");
         newBar.classList.add("bar");
-        newBar.style.setProperty("height", `${barHeight}px`);
-        newBar.style.setProperty("margin-bottom", `${barHeight}px`);
+        newBar.style.setProperty("height", `${barHeight * 1.5}px`);
+        newBar.style.setProperty("margin-bottom", `${barHeight / 2}px`);
         if (k == arraySize - 1) {
           newBar.style.setProperty("margin-bottom", "0px");
         }
