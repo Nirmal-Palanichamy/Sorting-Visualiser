@@ -25,6 +25,11 @@ body {
   letter-spacing: 1px;
   word-spacing: 5px;
   background: var(--primary-color);
+  -moz-user-select: -moz-none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+  user-select: none;
 }
 
 li {
