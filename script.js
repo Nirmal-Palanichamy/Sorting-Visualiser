@@ -481,8 +481,8 @@ function constructTable() {
         newCard.style.setProperty("width", "6rem");
         newCard.style.setProperty("height", "6rem");
       } else {
-        const cardWidth = (bodyWidth - 20) / 5;
-        newCard.style.setProperty("font-size", `${(bodyWidth * 2) / 878}rem`);
+        const cardWidth = Math.min((bodyWidth - 40) / 5, 96);
+        newCard.style.setProperty("font-size", `${cardWidth / 96}rem`);
         newCard.style.setProperty("width", `${cardWidth}px`);
         newCard.style.setProperty("height", `${cardWidth}px`);
       }
