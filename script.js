@@ -140,8 +140,7 @@ const sortingAlgos = {
       arr[i].style.setProperty("background", sortedColor);
     }
     if (tableNum == tableNumber) {
-      finishedTotal++;
-      finishedCheck();
+      finishedCheck(arr[0].parentElement);
     }
   },
   selection: async function (arr, tableNum) {
@@ -172,8 +171,7 @@ const sortingAlgos = {
     }
     arr[0].style.setProperty("background", sortedColor);
     if (tableNum == tableNumber) {
-      finishedTotal++;
-      finishedCheck();
+      finishedCheck(arr[0].parentElement);
     }
   },
   insertion: async function (arr, tableNum) {
@@ -199,8 +197,7 @@ const sortingAlgos = {
     }
     arr[0].style.setProperty("background", sortedColor);
     if (tableNum == tableNumber) {
-      finishedTotal++;
-      finishedCheck();
+      finishedCheck(arr[0].parentElement);
     }
   },
   merge: async function (arr, tableNum) {
@@ -279,8 +276,7 @@ const sortingAlgos = {
         arr[i].style.setProperty("background", lightColor);
       }
     } else if (tableNumber == tableNum) {
-      finishedTotal++;
-      finishedCheck();
+      finishedCheck(arr[0].parentElement);
     }
   },
   quick: async function (arr, tableNum) {
@@ -325,8 +321,7 @@ const sortingAlgos = {
     await this.quick(arr.slice(0, pivotIndex), tableNum);
     await this.quick(arr.slice(pivotIndex + 1), tableNum);
     if (arr.length == arraySize && tableNum == tableNumber) {
-      finishedTotal++;
-      finishedCheck();
+      finishedCheck(arr[0].parentElement);
     }
   },
   heap: async function (arr, tableNum) {
@@ -352,8 +347,7 @@ const sortingAlgos = {
     }
     arr[0].style.setProperty("background", sortedColor);
     if (tableNum == tableNumber) {
-      finishedTotal++;
-      finishedCheck();
+      finishedCheck(arr[0].parentElement);
     }
   },
   heapify: async function (arr, curr, size) {
@@ -386,7 +380,12 @@ const sortingAlgos = {
   },
 };
 
-function finishedCheck() {
+function finishedCheck(currCard) {
+  finishedTotal++;
+  const newOverlay = document.createElement("div");
+  newOverlay.classList.add("overlay");
+  newOverlay.innerHTML = finishedTotal;
+  currCard.appendChild(newOverlay);
   if (finishedTotal == widthItems.size * heightItems.size) {
     const playPauseButton = document.querySelector(".play-pause");
     playPauseButton.classList.remove("fa-play", "fa-pause");

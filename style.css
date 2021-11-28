@@ -3,12 +3,14 @@
   --primary-font-family: "Gemunu Libre", sans-serif;
   --font-size-multiplier-1: 1;
   --light-color: #fff;
+  --dark-color: #000;
   --gray-color: #888;
   --primary-color: #d7ec60;
   --secondary-color: #34495e;
   --comparing-color: #ff4343;
   --processing-color: #ccc;
   --sorted-color: var(--primary-color);
+  --overlay-color: rgba(0, 0, 0, 0.4);
 }
 
 /* RESET */
@@ -137,7 +139,7 @@ header {
 }
 
 .items > li:hover {
-  color: #000;
+  color: var(--dark-color);
   transition: all 0.3s;
 }
 
@@ -185,7 +187,7 @@ header {
 main {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  box-shadow: 0 0 10px #000;
+  box-shadow: 0 0 10px var(--dark-color);
 }
 
 .card {
@@ -197,6 +199,7 @@ main {
   justify-content: center;
   align-items: center;
   text-align: center;
+  position: relative;
 }
 
 .controller {
@@ -216,6 +219,25 @@ main {
 
 .controller i:active {
   color: var(--primary-color);
+}
+
+.overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  background: var(--overlay-color);
+  font-size: 400%;
+  color: var(--light-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 0.4s ease;
+}
+
+.overlay:hover {
+  opacity: 0;
 }
 
 .bar {
